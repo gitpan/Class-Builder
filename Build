@@ -1,0 +1,26 @@
+#!perl
+
+BEGIN {
+  $^W = 1;  # Use warnings
+  my $start_dir = 'D:\\workspace\\perl\\Class-Builder';
+  chdir($start_dir) or die "Cannot chdir to $start_dir: $!";
+  @INC = 
+    (
+     'D:\\usr\\lib\\perl',
+     'C:\\Perl\\lib',
+     'C:\\Perl\\site\\lib',
+     'D:\\workspace\\perl\\Class-Builder'
+    );
+}
+
+use Module::Build;
+
+# This should have just enough arguments to be able to bootstrap the rest.
+my $build = resume Module::Build (
+  properties => {
+    config_dir => 'D:\\workspace\\perl\\Class-Builder\\_build',
+    build_script => 'D:\\workspace\\perl\\Class-Builder\\Build',
+  },
+);
+
+$build->dispatch;
