@@ -1,8 +1,8 @@
 use ExtUtils::MakeMaker;
   WriteMakefile(
    NAME     => 'Class::Builder',
-   ABSTRACT => 'auto-generator of class accessors/special methods',
+   ABSTRACT => '',
    AUTHOR   => 'HUANGWEI',
    #PL_FILES => {},
-   VERSION_FROM => 'lib\Class\Builder.pm',
+   VERSION_FROM => 'lib/Class/Builder.pm',
   );

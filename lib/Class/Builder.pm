@@ -2,7 +2,7 @@
 #   Class::Builder -- auto-generator of class accessors/special methods    #
 # ======================================================================== #
 # Author: Wei, Huang, Weitop Corp., 2003-8-30
-# $Revision: 1.8 $ - $Date: 2003/09/25 20:18:14 $
+# $Revision: 1.10 $ - $Date: 2003/10/05 07:28:03 $
 # (c) Copyright: 2003 - 2006.
 
 # *WARNNING* ALPHA RELEASE
@@ -14,7 +14,7 @@
 # warranty of any type, use it at you own risk.
 
 package Class::Builder;
-our $VERSION = do { my @r = (q$Revision: 1.8 $ =~ /\d+/g); sprintf "%d."."%03d" x $#r, @r };;
+our $VERSION = do { my @r = (q$Revision: 1.10 $ =~ /\d+/g); sprintf "%d."."%03d" x $#r, @r };;
 
 use 5.006001;
 use strict;
@@ -22,6 +22,7 @@ use warnings;
 use integer;
 use autouse 'Carp' => qw(carp croak);
 use Exporter;
+use Storable qw(dclone);
 use base qw{Exporter};
 our @EXPORT = qw{struct};
 
@@ -465,11 +466,13 @@ sub constructor{
   my $class = $Class::Builder::current_class;
   my $initializers = $Class::Builder::initializers{$class};
   my $defaults = $Class::Builder::defaults{$class};
+
   map {
     $_,
     sub {
       my $class = (ref $_[0]) ? ref shift : shift;
-      my $self = $defaults; my @args = @_;
+      my $self = {};
+      $self = dclone($defaults); my @args = @_;
       bless $self, $class;
 
       my $hashref = {};
